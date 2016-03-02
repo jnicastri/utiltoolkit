@@ -31,15 +31,32 @@ namespace UtilityToolkit.FileTools
         /// <param name="xmlFilePath">Full path to the XML file to be checked</param>
         /// <param name="xsdFilePath">Full path to the schema file to validate against</param>
         /// <returns>True if valid against schema, false otherwise</returns>
-        public static bool ValidateXmlFileAgainstSchema(string xmlFilePath, string xsdFilePath)
+        public static bool ValidateXmlFileAgainstSchemaFile(string xmlFilePath, string xsdFilePath)
         {
             XDocument xdoc = XDocument.Load(xmlFilePath);
             XmlSchemaSet schemaSet = new XmlSchemaSet();
             schemaSet.Add(null, xsdFilePath);
-
+            
             try
             {
                 xdoc.Validate(schemaSet, null);
+            }
+            catch (XmlSchemaValidationException)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public static bool ValidateXmlAgainstSchema(XDocument document, XmlSchema schema)
+        {
+            XmlSchemaSet schemaSet = new XmlSchemaSet();
+            schemaSet.Add(schema);
+
+            try
+            {
+                document.Validate(schemaSet, null);
             }
             catch (XmlSchemaValidationException)
             {
