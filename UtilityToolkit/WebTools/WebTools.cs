@@ -31,7 +31,6 @@ namespace UtilityToolkit.WebTools
                 reqFTP.Credentials = new NetworkCredential(uName.Trim(), pwd);
                 reqFTP.Method = WebRequestMethods.Ftp.ListDirectory;
                 reqFTP.Proxy = null;
-                reqFTP.Proxy = new WebProxy();
                 reqFTP.KeepAlive = true;
 
                 response = reqFTP.GetResponse();
